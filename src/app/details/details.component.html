@@ -13,7 +13,7 @@
 <div id="details">
     <!-- In details[], name is at the first index (o) and favorite_color is at the second (1) -->
     <h2> {{ details[0]}} </h2>
-    <h3> Favrotie color: </h3>
+    <h3> Favorite color: </h3>
     <p> {{ details[1] }} </p>
 
     <!-- Only show quotes section title if there are enteries-->
@@ -25,12 +25,18 @@
     @for (quote of quotes; track $index) {
         <article>
             <p class="quote-text">"{{ quote.quote }}"</p>
-            @if(quote.likes == 1){
-            <p class="likes">{{ quote.likes }} Like </p>
+        </article>
+        @if(quote.likes == 1){
+            <div class="likes">
+                <img src="../../assets/heart-icon.png" />
+                <p class="likes"> {{ quote.likes }} Like </p>
+            </div>
             }
             @else{
-            <p class="likes">{{ quote.likes }} Likes </p>
-            }
-        </article>
+            <div class="likes">
+                <img src="../../assets/heart-icon.png" />
+                <p class="likes">{{ quote.likes }} Likes </p>
+            </div>
+        }
     }
 </div>

@@ -38,7 +38,7 @@
     <div id="results">
         @for (result of results; track $index){
         <div class="card">
-            <a [routerLink]="['/details', results[$index].id]"> {{ results[$index].name }} </a>
+            <button [routerLink]="['/details', results[$index].id]"> {{ results[$index].name }} </button>
         </div>
         }
     </div>

@@ -7,8 +7,27 @@ form > input, form > select, form > button, .card {
     margin: .5em;
 }
 
-.card {
-    border: solid black;
-    padding: 2em;
+.card > button {
+    padding: 3em;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    background-color: white;
+    border-color: #C0C0C0;
+    border-width: .15em;
+    border-radius: 15px;
+    border-bottom: none;
+    box-shadow: 0 9px #999;
+}
+
+.card > button:hover {
+    background-color: #c1ded9;
+}
+
+.card > button:active {
+    background-color: #809e9a;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
 
