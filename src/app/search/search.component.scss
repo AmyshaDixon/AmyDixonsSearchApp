@@ -1,0 +1,14 @@
+form, #results {
+    display: flex;
+    flex-direction: row;
+}
+
+form > input, form > select, form > button, .card {
+    margin: .5em;
+}
+
+.card {
+    border: solid black;
+    padding: 2em;
+}
+

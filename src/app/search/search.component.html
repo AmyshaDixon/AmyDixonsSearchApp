@@ -1,6 +1,44 @@
-<p>
-    Implement search in this component
-</p>
-<p>
-    Implement details in the <a [routerLink]="['/details/123']">details component</a>
-</p>
+<section>
+    <form onSubmit="return false;">
+        <!-- Text input -->
+        <input type="text" placeholder="Enter a name" #name>
+
+        <!-- Color dropdown-->
+        <select #color>
+            <option value=""> Select
+            <option value="blue"> Blue </option>
+            <option value="red"> Red </option>
+            <option value="green"> Green </option>
+        </select>
+
+        <!-- Search button-->
+        <button 
+                class="primary" 
+                type="submit" 
+                (click)="getResults(name.value, color.value)" 
+                (keydown.enter)="getResults(name.value, color.value)" >
+                    Search
+        </button>
+    </form>
+</section>
+
+<section>
+    <!-- Display error text only if there is an error and no results -->
+    @if (apiError.length > 0 && !results[0]) {
+    <p class="error"> {{ apiError }} </p>
+    }
+
+    <!-- If there is at least 1 result, then show the results section title -->
+    @if (results[0]) {
+        <h2> Search Results</h2>
+    }
+
+    <!-- Loops through the search matches and displays the names on cards -->
+    <div id="results">
+        @for (result of results; track $index){
+        <div class="card">
+            <a [routerLink]="['/details', results[$index].id]"> {{ results[$index].name }} </a>
+        </div>
+        }
+    </div>
+</section>

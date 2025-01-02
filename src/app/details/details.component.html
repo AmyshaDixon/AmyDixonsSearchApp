@@ -1,6 +1,35 @@
-<div>
-    Implement details in this component.
+<a [routerLink]="['/']"> Back to search page </a>
+
+<!-- Display error text if avaiable -->
+@if (apiError.length) {
+<p class="error"> {{ apiError }} </p>
+}
+
+<!-- If there is at least 1 detail (the main one, name), then show the results section title -->
+@if (details) {
+<h1> Details</h1>
+}
+
+<div id="details">
+    <!-- In details[], name is at the first index (o) and favorite_color is at the second (1) -->
+    <h2> {{ details[0]}} </h2>
+    <h3> Favrotie color: </h3>
+    <p> {{ details[1] }} </p>
+
+    @if(quotes){
+        <h3> Quotes: </h3>
+    }
+
+    <!-- Loops through the quotes and displays them as text -->
+    @for (quote of quotes; track $index) {
+        <article>
+            <p class="quote-text">"{{ quote.quote }}"</p>
+            @if(quote.likes == 1){
+            <p class="likes">{{ quote.likes }} Like </p>
+            }
+            @else{
+            <p class="likes">{{ quote.likes }} Likes </p>
+            }
+        </article>
+    }
 </div>
-<p>
-    Implement search in the <a [routerLink]="['/']">search component</a>
-</p>
