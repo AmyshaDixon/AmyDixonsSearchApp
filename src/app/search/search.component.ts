@@ -16,9 +16,35 @@ export class SearchComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
+        // Check for cookie
+        let searchCookie = document.cookie;
+
+        if (searchCookie) {
+            // Remove everything but the criteria needed
+            searchCookie.replace(/name|=|;|color/g, "");
+            //console.log("searchCookie: " + searchCookie);
+
+            // Split by space
+            let searchCriteria = searchCookie.split(" ");
+
+            // Repopulate search with criteria from cookie
+            this.getResults(searchCriteria[0], searchCookie[1]);
+        }
     }
 
     async getResults(name: string, color: string): Promise<void> {
+        // Clear any current cookies
+        let oldCookies = document.cookie.split(";");
+
+        for (let i = 0; i < oldCookies.length; i++) {
+            document.cookie = oldCookies[i] + "=;expires="
+                + new Date(0).toUTCString();
+        }
+
+        // Store search criteria in cookie
+        document.cookie = `name=${name}; color=${color}`;
+        //console.log("Regular Cookie: " + document.cookie);
+
         // Reset api error
         this.apiError = "";
 
@@ -37,7 +63,6 @@ export class SearchComponent implements OnInit {
         }
 
         try {
-            console.log(this.apiUrl + endpoint);
             // Retrieve response
             let response = await fetch(this.apiUrl + endpoint);
 

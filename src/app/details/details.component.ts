@@ -80,8 +80,6 @@ export class DetailsComponent implements OnInit {
 
         let line: string = "";
 
-        console.log(quotes);
-
         // Organizes and add quote content (likes and likes) to an easily accessible array
         for (let likes in quotes) {
             line = "";
@@ -101,7 +99,5 @@ export class DetailsComponent implements OnInit {
         // Not sure if I am interpreting this correctly...
         this.quotes.sort((a, b) => +b.quote - +a.quote); // Organizing alphabetically first
         this.quotes.sort((a, b) => b.likes - a.likes); // so that the main order will be by likes
-
-        console.log(this.quotes);
     }
 }
