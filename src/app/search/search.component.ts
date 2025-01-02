@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class SearchComponent implements OnInit {
     apiUrl: string = "http://localhost:5000/search?";
-    // Creating dictionary to store matches
+    // Create "dictionary" (python background) to store matches
     results: Map<string, string> = new Map();
     apiError: string = "";
 
@@ -32,10 +32,14 @@ export class SearchComponent implements OnInit {
         }
     }
 
+    /**
+     * Connects to and pulls data from the /search? API response
+     * @param name - The inputted name that the user wishes to search for
+     * @param color - The inputted color that the user wishes to search for
+     */
     async getResults(name: string, color: string): Promise<void> {
         // Clear any current cookies
         let oldCookies = document.cookie.split(";");
-
         for (let i = 0; i < oldCookies.length; i++) {
             document.cookie = oldCookies[i] + "=;expires="
                 + new Date(0).toUTCString();
