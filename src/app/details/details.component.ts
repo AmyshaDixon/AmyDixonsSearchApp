@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class DetailsComponent implements OnInit {
-    apiUrl: string = `http://localhost:5000/details/`;
+    apiUrl: string = "http://localhost:5000/details/";
     details: string[] = [];
     quotes: {quote: string, likes: number}[] = [];
     apiError: string = "";
@@ -34,8 +34,26 @@ export class DetailsComponent implements OnInit {
      */
     async pullDetails(id: string): Promise<any> {
         try {
-            // Connect to the API and retrieve the response
+            // Retrieve response
             let response = await fetch(this.apiUrl + id);
+
+            // Handle direct API code errors
+            switch (response.status) {
+                case 400:
+                    this.apiError = "The API has returned the following error: [ 400: The provided ID must be"
+                        + " numeric]. We apologize for the inconvienience."
+                    break;
+                case 404:
+                    this.apiError = "The API has returned the following error: [ 404: Requested person not found ]."
+                        + "We apologize for the inconvienience."
+                    break;
+                case 500:
+                    this.apiError = "The API has returned the following error: [ 500: The server has encountered and unexpected error ]."
+                        + "We apologize for the inconvienience."
+                    break;
+            }
+
+            // Retrieve data
             let outcome = await response.json();
 
             // Store details
@@ -62,17 +80,28 @@ export class DetailsComponent implements OnInit {
 
         let line: string = "";
 
+        console.log(quotes);
+
         // Organizes and add quote content (likes and likes) to an easily accessible array
         for (let likes in quotes) {
             line = "";
             for (let q = 0; q < likes.length; q++) {
-                line += quotes[likes][q] + " ";
+                line += quotes[likes][q] + "  ";
             }
 
             this.quotes.push({
-                quote: line,
+                // NOTE: Did a small patch for "undefined," for now,
+                // but source of issue needs to be resolved when there is more time
+                quote: line.replace(/undefined/g, ""),
                 likes: +likes,
             });
         }
+
+        // Sort quotes by likes (desc) and then aplphabetically (asc)
+        // Not sure if I am interpreting this correctly...
+        this.quotes.sort((a, b) => +b.quote - +a.quote); // Organizing alphabetically first
+        this.quotes.sort((a, b) => b.likes - a.likes); // so that the main order will be by likes
+
+        console.log(this.quotes);
     }
 }

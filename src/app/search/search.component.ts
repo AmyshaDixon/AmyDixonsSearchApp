@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class SearchComponent implements OnInit {
-    apiUrl: string = `http://localhost:5000/search?`;
+    apiUrl: string = "http://localhost:5000/search?";
     // Creating dictionary to store matches
     results: Map<string, string> = new Map();
     apiError: string = "";
@@ -37,13 +37,33 @@ export class SearchComponent implements OnInit {
         }
 
         try {
+            console.log(this.apiUrl + endpoint);
+            // Retrieve response
             let response = await fetch(this.apiUrl + endpoint);
+
+            // Handle direct API code errors
+            switch (response.status) {
+                case 400:
+                    this.apiError = "The API has returned the following error: [ 400: At least one parameter of the"
+                        + " search criteria, name or color, is required]. We apologize for the inconvienience."
+                case 404:
+                    this.apiError = "The API has returned the following error: [ 404: Requested person not found ]."
+                        + "We apologize for the inconvienience."
+                    break;
+                case 500:
+                    this.apiError = "The API has returned the following error: [ 500: The server has encountered and unexpected error ]."
+                        + "We apologize for the inconvienience."
+                    break;
+            }
+
+            // Retrieve data
             let outcome = await response.json();
 
             // Store matches in dictionary
             this.results = outcome.matches;
         }
         catch (error) {
+            // Handle any other unspecified error
             this.apiError = `The API has returned the following error: [ ${error} ]. We apologize for the inconvienience.`
         }
     }

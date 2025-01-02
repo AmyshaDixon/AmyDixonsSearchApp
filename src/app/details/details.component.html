@@ -16,7 +16,8 @@
     <h3> Favrotie color: </h3>
     <p> {{ details[1] }} </p>
 
-    @if(quotes){
+    <!-- Only show quotes section title if there are enteries-->
+    @if(quotes.length > 0){
         <h3> Quotes: </h3>
     }
 
